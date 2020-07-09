@@ -3,7 +3,6 @@ package com.shopping.cart.service;
 import java.util.List;
 
 import com.shopping.cart.modal.ProductImage;
-import com.shopping.cart.repository.ProductImageRepository;
 
 public interface ProductImageService {
 
