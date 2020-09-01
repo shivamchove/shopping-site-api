@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,12 @@ public class ProductController {
 			@RequestParam(value = "searchText", defaultValue = "") String searchText){
 		Page<Product> products= productService.findByProductName(searchText, pageNo, pageSize, sortBy);
 		return ResponseEntity.ok().body(products);
+	}
+	
+	@GetMapping("/getbyid/{id}")
+	public ResponseEntity<?> findAll(@PathVariable("id") Integer id){
+		Product product= productService.getById(id);
+		return ResponseEntity.ok().body(product);
 	}
 	
 	@PostMapping("/save")
