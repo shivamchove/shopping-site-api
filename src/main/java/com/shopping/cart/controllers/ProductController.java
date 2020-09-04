@@ -67,14 +67,21 @@ public class ProductController {
 		return ResponseEntity.ok().body("Saved");
 	}
 	
-	@PostMapping(value = "/fileupload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/add-update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> saveFile(@RequestParam("productImage") MultipartFile[] productImage, @RequestParam("product") String product ){
 		
 		Product prod;
+		String message="";
 		try {
 			ObjectMapper om=new ObjectMapper();
 			prod=om.readValue(product, Product.class);
-			productService.save(prod);
+			message="Product "+(prod.getId()>0 ? "updated":"saved")+" successfully.";
+			if(prod.getId()>0) {
+				productService.update(prod, prod.getId());
+			}
+			else {
+				productService.save(prod);
+			}
 			if(productImage!=null) {
 				
 				for(int i=0; i<productImage.length; i++) {
@@ -104,6 +111,11 @@ public class ProductController {
 			e.printStackTrace();
 		}
 		
-		return ResponseEntity.ok().body("Product saved successfully.");
+		return ResponseEntity.ok().body(message);
+	}
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Integer id){
+		productService.delete(id);
+		return ResponseEntity.ok().body("Product has been deleted.");
 	}
 }

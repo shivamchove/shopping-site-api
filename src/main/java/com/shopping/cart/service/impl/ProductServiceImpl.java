@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
+		productRepository.deleteById(id);
 
 	}
 
